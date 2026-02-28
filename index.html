@@ -45,15 +45,51 @@
         <h1 class="nav-company-name">Natasha</h1>
 
       </div>
-      <a href="static/about.html">
-        <button class="nav-button">About ></button>
-      </a>
+      <div class="nav-links">
+        <a href="other-applications/pomodoro-timer/index.html">
+          <button class="nav-button"><i class="fa-solid fa-clock"></i> Timer</button>
+        </a>
+        <a href="static/about.html">
+          <button class="nav-button">About ></button>
+        </a>
+      </div>
     </nav>
     <div class="home-front-container">
-      <div class="about" id="hero-title">
+      <!-- Natasha Silhouette Background -->
+      <div class="natasha-bg-silhouette">
+        <svg viewBox="0 0 400 600" class="silhouette-svg" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="silhouetteGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:rgba(219,39,119,0.12);stop-opacity:1" />
+              <stop offset="50%" style="stop-color:rgba(236,72,153,0.08);stop-opacity:1" />
+              <stop offset="100%" style="stop-color:rgba(255,255,255,0.05);stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <!-- Head -->
+          <ellipse cx="200" cy="80" rx="45" ry="55" fill="url(#silhouetteGrad)" stroke="rgba(219,39,119,0.15)" stroke-width="1"/>
+          <!-- Hair flowing -->
+          <path d="M155 60 Q140 30 160 10 Q180 -5 200 5 Q220 -5 240 10 Q260 30 245 60" fill="none" stroke="rgba(219,39,119,0.12)" stroke-width="2"/>
+          <path d="M155 70 Q130 90 120 140 Q115 180 125 220" fill="none" stroke="rgba(219,39,119,0.1)" stroke-width="2"/>
+          <path d="M245 70 Q270 90 280 140 Q285 180 275 220" fill="none" stroke="rgba(219,39,119,0.1)" stroke-width="2"/>
+          <!-- Neck -->
+          <rect x="188" y="130" width="24" height="30" rx="10" fill="url(#silhouetteGrad)"/>
+          <!-- Shoulders/Body -->
+          <path d="M160 160 Q140 165 120 190 Q110 210 115 250 L135 250 Q145 220 160 200 L200 195 L240 200 Q255 220 265 250 L285 250 Q290 210 280 190 Q260 165 240 160 Z" fill="url(#silhouetteGrad)" stroke="rgba(219,39,119,0.1)" stroke-width="1"/>
+          <!-- Body/Dress -->
+          <path d="M120 250 Q110 320 100 400 Q90 480 120 560 L280 560 Q310 480 300 400 Q290 320 280 250 Z" fill="url(#silhouetteGrad)" stroke="rgba(219,39,119,0.08)" stroke-width="1"/>
+          <!-- Arms -->
+          <path d="M120 190 Q90 220 75 270 Q65 300 80 320" fill="none" stroke="rgba(219,39,119,0.1)" stroke-width="2"/>
+          <path d="M280 190 Q310 220 325 270 Q335 300 320 320" fill="none" stroke="rgba(219,39,119,0.1)" stroke-width="2"/>
+          <!-- Text: My name is Natasha -->
+          <text x="200" y="420" text-anchor="middle" font-family="segoe_ui, sans-serif" font-size="16" fill="rgba(219,39,119,0.15)" font-style="italic">My name is</text>
+          <text x="200" y="450" text-anchor="middle" font-family="segoe_ui-black, sans-serif" font-size="28" fill="rgba(219,39,119,0.12)" letter-spacing="3">NATASHA</text>
+        </svg>
+      </div>
+
+      <div class="about glossy-text" id="hero-title">
         AI-Driven solution that revolutionizes <br> daily life management
       </div>
-      <div class="description" id="hero-desc">
+      <div class="description glossy-text" id="hero-desc">
         Tracking activities, suggesting improvements, unique insights and <br> providing productivity tools for personal development <br> and career growth
       </div>
 
@@ -62,27 +98,27 @@
 
       <div class="other-details">
 
-        <!-- INput and speechRecognition system -->
+        <!-- Input and speechRecognition system -->
         <div class="input-container">
-          <div>
+          <div class="search-bar-wrap">
             <label for="input-prompt">
-              <input class="prompt-input" id="input" placeholder="Search..." name="input-prompt" type="text" required>
+              <input class="prompt-input" id="input" placeholder="Ask Natasha anything..." name="input-prompt" type="text" required>
             </label>
           </div>
 
-
-          <div>
-            <button class="mic-btn" type="button">
+          <div class="action-buttons">
+            <button class="mic-btn" type="button" id="mic-button">
               <i class="fa-solid fa-xl fa-microphone" style="color: white;"></i>
+              <span class="mic-pulse"></span>
+            </button>
+
+            <button class="search-btn" type="submit">
+              <i class="fa-solid fa-paper-plane"></i> Go
             </button>
           </div>
-
-          <div>
-            <button class="search-btn" type="submit">Go</button>
-          </div> 
         </div>
         <div>
-          <button class="search-btn1" type="submit" id="chart" >Chat with ai</button>
+          <button class="search-btn1" type="submit" id="chart" >Chat with AI</button>
         </div>
 
         <!-- This section will be chat between user and ai -->
@@ -199,6 +235,29 @@ Empowering Personal Development: Invent an emotionally connected AI that support
   </main>
 
   <footer>
+    <div class="footer-commands">
+      <h3 class="footer-section-title">Commands Accepted</h3>
+      <div class="commands-grid">
+        <span class="command-tag">Open Pomodoro</span>
+        <span class="command-tag">Open To-do</span>
+        <span class="command-tag">Open Dashboard</span>
+        <span class="command-tag">Open Meditation</span>
+        <span class="command-tag">Start Timer</span>
+        <span class="command-tag">Play [song]</span>
+        <span class="command-tag">Search for [topic]</span>
+        <span class="command-tag">Locate [place]</span>
+        <span class="command-tag">Check my mails</span>
+        <span class="command-tag">Today's weather</span>
+        <span class="command-tag">Open WhatsApp</span>
+        <span class="command-tag">Tell me a joke</span>
+        <span class="command-tag">What's the time</span>
+        <span class="command-tag">Set reminder</span>
+        <span class="command-tag">Wikipedia [topic]</span>
+        <span class="command-tag">News headlines</span>
+        <span class="command-tag">Calculate [expr]</span>
+        <span class="command-tag">Translate [text]</span>
+      </div>
+    </div>
     <div class="custom-screen">
       <p>
         &copy; 2023 Natasha.ai &mdash; Built with &hearts; at NHCE Bangalore

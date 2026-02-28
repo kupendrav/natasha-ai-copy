@@ -220,6 +220,131 @@
     window.open("https://github.com/kupendrav");
       return;
       }
+
+    // ----- NEW COMMANDS -----
+
+    // Tell a joke
+    if (userText.includes('joke') || userText.includes('make me laugh')) {
+      const jokes = [
+        "Why do programmers prefer dark mode? Because light attracts bugs!",
+        "Why was the JavaScript developer sad? Because he didn't Node how to Express himself!",
+        "A SQL query walks into a bar, sees two tables and asks... Can I join you?",
+        "Why do Java developers wear glasses? Because they don't C sharp!",
+        "There are only 10 types of people in the world: those who understand binary and those who don't."
+      ];
+      speak(jokes[Math.floor(Math.random() * jokes.length)]);
+      return;
+    }
+
+    // What's the time
+    if (userText.includes('time') && (userText.includes('what') || userText.includes('current') || userText.includes('tell me'))) {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+      speak(`It's currently ${timeStr}. Make every minute count!`);
+      return;
+    }
+
+    // What's the date
+    if (userText.includes('date') && (userText.includes('what') || userText.includes('today'))) {
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      speak(`Today is ${dateStr}.`);
+      return;
+    }
+
+    // Set reminder (simulated with alert)
+    if (userText.includes('remind me') || userText.includes('set reminder') || userText.includes('set a reminder')) {
+      speak("Sure! I'll remind you. How many minutes from now?");
+      const mins = prompt("Remind in how many minutes?");
+      const message = prompt("What should I remind you about?");
+      if (mins && message) {
+        setTimeout(() => {
+          alert(`⏰ Reminder: ${message}`);
+          speak(`Hey! Just a reminder: ${message}`);
+        }, parseInt(mins) * 60000);
+        speak(`Got it! I'll remind you about "${message}" in ${mins} minutes.`);
+      }
+      return;
+    }
+
+    // Wikipedia search
+    if (userText.includes('wikipedia') || userText.includes('wiki')) {
+      let input = userText.replace('wikipedia', '').replace('wiki', '').trim();
+      if (input) {
+        speak(`Let me look that up on Wikipedia for you.`);
+        window.open(`https://en.wikipedia.org/wiki/Special:Search?search=${input}`);
+      } else {
+        speak("What would you like me to search on Wikipedia?");
+      }
+      return;
+    }
+
+    // News
+    if (userText.includes('news') || userText.includes('headlines')) {
+      speak("Here are the latest news headlines for you!");
+      window.open("https://news.google.com/");
+      return;
+    }
+
+    // Calculator
+    if (userText.includes('calculate') || userText.includes('what is') && (userText.includes('+') || userText.includes('-') || userText.includes('*') || userText.includes('/'))) {
+      try {
+        let expr = userText.replace('calculate', '').replace('what is', '').trim();
+        // Basic sanitize - only allow numbers and operators
+        if (/^[\d\s\+\-\*\/\.\(\)]+$/.test(expr)) {
+          let result = Function('"use strict"; return (' + expr + ')')();
+          speak(`The answer is ${result}`);
+        } else {
+          speak("I can only calculate basic math expressions with numbers and operators.");
+        }
+      } catch(e) {
+        speak("Hmm, I couldn't calculate that. Could you try again?");
+      }
+      return;
+    }
+
+    // Translate
+    if (userText.includes('translate')) {
+      let input = userText.split('translate').at(-1).trim();
+      speak(`Opening Google Translate for you.`);
+      window.open(`https://translate.google.com/?sl=auto&tl=en&text=${encodeURIComponent(input)}`);
+      return;
+    }
+
+    // Open timer
+    if (userText.includes('start timer') || userText.includes('open timer')) {
+      speak("Opening the Pomodoro Timer for you. Let's stay focused!");
+      window.open('./other-applications/pomodoro-timer/index.html');
+      return;
+    }
+
+    // Good morning/night greetings
+    if (userText.includes('good morning')) {
+      speak("Good morning! Rise and shine! Today is a fresh start, make it count!");
+      return;
+    }
+    if (userText.includes('good night')) {
+      speak("Good night! Get some rest. Tomorrow is another chance to be amazing!");
+      return;
+    }
+
+    // Thank you
+    if (userText.includes('thank you') || userText.includes('thanks')) {
+      speak("You're welcome! I'm always here to help. Just ask anytime!");
+      return;
+    }
+
+    // Bored
+    if (userText.includes('bored') || userText.includes('boring')) {
+      speak("Feeling bored? How about trying a Pomodoro session, or let me play some music for you!");
+      return;
+    }
+
+    // Stressed
+    if (userText.includes('stressed') || userText.includes('anxious') || userText.includes('overwhelmed')) {
+      speak("I'm sorry you're feeling that way. Take a deep breath. Would you like to try a meditation session? It really helps!");
+      return;
+    }
   
     if (userText) {
       speak("Hmm, I'm not quite sure what you mean. Could you try rephrasing that?")

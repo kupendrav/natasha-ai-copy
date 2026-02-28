@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pomodoro Timer | Natasha.ai</title>
+  <link rel="shortcut icon" href="../../static/assets/favicon-32x32.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              900: 'rgb(17, 24, 39)',
+              800: 'rgb(31, 41, 55)',
+              700: 'rgb(55, 65, 81)',
+              500: 'rgb(107, 114, 128)',
+              400: 'rgb(156, 163, 175)',
+              300: 'rgb(209, 213, 219)',
+            },
+            purple: {
+              DEFAULT: 'rgb(147, 51, 234)',
+              light: 'rgb(168, 85, 247)',
+              lighter: 'rgb(192, 132, 252)',
+              glow: 'rgba(147, 51, 234, 0.4)',
+            }
+          },
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    /* Gradient text utility */
+    .gradient-text {
+      background: linear-gradient(135deg, #a78bfa, #c084fc, #e9d5ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .gradient-text-title {
+      background: linear-gradient(135deg, #a78bfa, #e9d5ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Gradient bg utility */
+    .gradient-purple {
+      background: linear-gradient(135deg, rgb(147, 51, 234), rgb(168, 85, 247));
+    }
+
+    /* SVG circle styles */
+    .bg-circle {
+      fill: none;
+      stroke: rgba(31, 41, 55, 0.8);
+      stroke-width: 8;
+    }
+    .progress-circle {
+      fill: none;
+      stroke: url(#timerGradient);
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 880;
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 1s linear;
+      filter: drop-shadow(0 0 8px rgba(147, 51, 234, 0.4));
+    }
+
+    /* Mode tab active gradient (can't do gradient bg in Tailwind easily) */
+    .mode-tab.active {
+      background: linear-gradient(135deg, rgb(147, 51, 234), rgb(168, 85, 247));
+      color: white;
+      box-shadow: 0 4px 15px rgba(147, 51, 234, 0.4);
+    }
+
+    /* Beep overlay */
+    .beep-overlay {
+      animation: beepFlash 0.5s ease infinite;
+    }
+    @keyframes beepFlash {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+
+    /* Tabular nums for timer */
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body class="font-inter bg-brand-900 text-white min-h-screen flex flex-col items-center overflow-x-hidden">
+
+  <!-- Beep overlay -->
+  <div id="beepOverlay" class="beep-overlay fixed inset-0 bg-purple/15 z-[999] hidden"></div>
+
+  <!-- Nav -->
+  <nav class="w-full flex justify-between items-center px-6 sm:px-10 md:px-16 py-4 border-b border-purple-light/30">
+    <a href="../../index.html" class="flex items-center gap-2.5 no-underline text-white">
+      <img src="../../static/assets/favicon-32x32.png" width="28" alt="logo">
+      <span class="gradient-text text-xl sm:text-2xl font-bold">Natasha</span>
+    </a>
+    <a href="../../index.html" class="no-underline">
+      <button class="border border-purple-light/50 bg-purple/15 text-white px-4 sm:px-5 py-2 rounded-full text-sm font-semibold cursor-pointer transition-all duration-300 hover:bg-purple/35 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-glow flex items-center gap-2">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span class="hidden sm:inline">Back Home</span>
+      </button>
+    </a>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="flex flex-col items-center justify-center flex-1 w-full max-w-xl px-4 sm:px-6 py-8 sm:py-10">
+
+    <!-- Title -->
+    <h1 class="gradient-text-title text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-center">
+      <i class="fa-solid fa-clock"></i> Pomodoro Timer
+    </h1>
+    <p class="text-brand-400 text-sm sm:text-base mb-8 sm:mb-10 text-center">Stay focused, take breaks, be productive</p>
+
+    <!-- Mode Tabs -->
+    <div class="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-8 sm:mb-10 bg-brand-800/80 p-1.5 rounded-full border border-purple-light/15">
+      <button class="mode-tab active px-4 sm:px-6 py-2.5 rounded-full border-none text-sm font-medium cursor-pointer transition-all duration-300" data-mode="focus" data-time="25">Focus</button>
+      <button class="mode-tab px-4 sm:px-6 py-2.5 rounded-full border-none bg-transparent text-brand-400 text-sm font-medium cursor-pointer transition-all duration-300 hover:text-white hover:bg-purple-light/15" data-mode="short" data-time="5">Short Break</button>
+      <button class="mode-tab px-4 sm:px-6 py-2.5 rounded-full border-none bg-transparent text-brand-400 text-sm font-medium cursor-pointer transition-all duration-300 hover:text-white hover:bg-purple-light/15" data-mode="long" data-time="15">Long Break</button>
+    </div>
+
+    <!-- Timer Circle -->
+    <div class="relative w-56 h-56 sm:w-72 sm:h-72 md:w-[300px] md:h-[300px] mb-8 sm:mb-10">
+      <svg viewBox="0 0 300 300" class="w-full h-full -rotate-90">
+        <defs>
+          <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="rgb(147, 51, 234)" />
+            <stop offset="100%" stop-color="rgb(192, 132, 252)" />
+          </linearGradient>
+        </defs>
+        <circle class="bg-circle" cx="150" cy="150" r="140" />
+        <circle class="progress-circle" id="progressCircle" cx="150" cy="150" r="140" />
+      </svg>
+      <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+        <div id="timerDisplay" class="text-5xl sm:text-6xl md:text-7xl font-light tracking-widest tabular-nums">25:00</div>
+        <div id="timerLabel" class="text-xs sm:text-sm text-brand-400 uppercase tracking-widest mt-1">Focus Time</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex items-center gap-4 sm:gap-5 mb-8">
+      <button id="resetBtn" title="Reset" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-brand-800/80 border border-purple-light/30 text-white text-lg flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-purple-light/20 hover:border-purple-light hover:scale-105">
+        <i class="fa-solid fa-rotate-left"></i>
+      </button>
+      <button id="startBtn" title="Start/Pause" class="gradient-purple w-16 h-16 sm:w-[72px] sm:h-[72px] rounded-full border-none text-white text-2xl flex items-center justify-center cursor-pointer shadow-lg shadow-purple-glow transition-all duration-300 hover:scale-110 hover:shadow-xl hover:shadow-purple-glow active:scale-95">
+        <i class="fa-solid fa-play" id="startIcon"></i>
+      </button>
+      <button id="skipBtn" title="Skip" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-brand-800/80 border border-purple-light/30 text-white text-lg flex items-center justify-center cursor-pointer transition-all duration-300 hover:bg-purple-light/20 hover:border-purple-light hover:scale-105">
+        <i class="fa-solid fa-forward"></i>
+      </button>
+    </div>
+
+    <!-- Session Info -->
+    <div class="flex gap-8 sm:gap-12 mb-8">
+      <div class="text-center">
+        <div id="sessionsCount" class="text-2xl sm:text-3xl font-bold text-purple-light">0</div>
+        <div class="text-xs text-brand-400 uppercase tracking-wider mt-1">Sessions</div>
+      </div>
+      <div class="text-center">
+        <div id="totalMinutes" class="text-2xl sm:text-3xl font-bold text-purple-light">0</div>
+        <div class="text-xs text-brand-400 uppercase tracking-wider mt-1">Minutes Focused</div>
+      </div>
+    </div>
+
+    <!-- Custom Time -->
+    <div class="flex flex-wrap items-center justify-center gap-3 mb-5 bg-brand-800/60 px-4 sm:px-5 py-3 rounded-2xl border border-purple-light/15">
+      <label class="text-sm text-brand-400">Custom:</label>
+      <input type="number" id="customMinutes" min="1" max="120" value="25" placeholder="min"
+        class="w-16 bg-brand-900/80 border border-purple-light/30 rounded-xl text-white px-3 py-2 text-base text-center outline-none transition-colors duration-300 focus:border-purple-light">
+      <span class="text-brand-400 text-sm">min</span>
+      <button id="setCustomBtn" class="gradient-purple border-none text-white px-4 py-2 rounded-xl cursor-pointer text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md hover:shadow-purple-glow">Set</button>
+    </div>
+
+    <!-- Keyboard Shortcuts -->
+    <div class="text-brand-700 text-xs text-center mt-2 flex flex-wrap justify-center gap-x-2 gap-y-1">
+      <span>Press <kbd class="bg-brand-800/80 border border-brand-700/40 rounded px-1.5 py-0.5 text-[11px] mx-0.5">Space</kbd> Start/Pause</span>
+      <span>&middot;</span>
+      <span><kbd class="bg-brand-800/80 border border-brand-700/40 rounded px-1.5 py-0.5 text-[11px] mx-0.5">R</kbd> Reset</span>
+      <span>&middot;</span>
+      <span><kbd class="bg-brand-800/80 border border-brand-700/40 rounded px-1.5 py-0.5 text-[11px] mx-0.5">S</kbd> Skip</span>
+    </div>
+  </div>
+
+  <script>
+    // ========================
+    // Pomodoro Timer Logic
+    // ========================
+
+    const CIRCUMFERENCE = 2 * Math.PI * 140; // ~879.6
+
+    // Elements
+    const timerDisplay = document.getElementById('timerDisplay');
+    const timerLabel = document.getElementById('timerLabel');
+    const progressCircle = document.getElementById('progressCircle');
+    const startBtn = document.getElementById('startBtn');
+    const startIcon = document.getElementById('startIcon');
+    const resetBtn = document.getElementById('resetBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const sessionsCount = document.getElementById('sessionsCount');
+    const totalMinutesEl = document.getElementById('totalMinutes');
+    const beepOverlay = document.getElementById('beepOverlay');
+    const modeTabs = document.querySelectorAll('.mode-tab');
+    const customMinutesInput = document.getElementById('customMinutes');
+    const setCustomBtn = document.getElementById('setCustomBtn');
+
+    // State
+    let totalSeconds = 25 * 60;
+    let remainingSeconds = totalSeconds;
+    let isRunning = false;
+    let intervalId = null;
+    let sessions = 0;
+    let totalFocusMinutes = 0;
+    let currentMode = 'focus';
+
+    // Set progress circle
+    progressCircle.style.strokeDasharray = CIRCUMFERENCE;
+    progressCircle.style.strokeDashoffset = 0;
+
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const s = (seconds % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function updateDisplay() {
+      timerDisplay.textContent = formatTime(remainingSeconds);
+      const progress = (totalSeconds - remainingSeconds) / totalSeconds;
+      progressCircle.style.strokeDashoffset = CIRCUMFERENCE * (1 - progress);
+      document.title = `${formatTime(remainingSeconds)} - Natasha Timer`;
+    }
+
+    function setMode(mode, time) {
+      currentMode = mode;
+      totalSeconds = time * 60;
+      remainingSeconds = totalSeconds;
+
+      // Update tabs
+      modeTabs.forEach(tab => tab.classList.remove('active'));
+      document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+
+      // Update label
+      const labels = { focus: 'Focus Time', short: 'Short Break', long: 'Long Break' };
+      timerLabel.textContent = labels[mode] || 'Focus Time';
+
+      stopTimer();
+      updateDisplay();
+    }
+
+    function startTimer() {
+      if (isRunning) return;
+      isRunning = true;
+      startIcon.classList.remove('fa-play');
+      startIcon.classList.add('fa-pause');
+
+      intervalId = setInterval(() => {
+        remainingSeconds--;
+        updateDisplay();
+
+        if (remainingSeconds <= 0) {
+          clearInterval(intervalId);
+          isRunning = false;
+          startIcon.classList.remove('fa-pause');
+          startIcon.classList.add('fa-play');
+          onTimerComplete();
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      isRunning = false;
+      clearInterval(intervalId);
+      startIcon.classList.remove('fa-pause');
+      startIcon.classList.add('fa-play');
+    }
+
+    function stopTimer() {
+      pauseTimer();
+      remainingSeconds = totalSeconds;
+      updateDisplay();
+    }
+
+    function onTimerComplete() {
+      // Beep sound using Web Audio API
+      playBeep();
+
+      // Flash overlay
+      beepOverlay.classList.remove('hidden');
+      setTimeout(() => beepOverlay.classList.add('hidden'), 3000);
+
+      if (currentMode === 'focus') {
+        sessions++;
+        totalFocusMinutes += totalSeconds / 60;
+        sessionsCount.textContent = sessions;
+        totalMinutesEl.textContent = totalFocusMinutes;
+      }
+
+      // Auto switch
+      if (currentMode === 'focus') {
+        if (sessions % 4 === 0) {
+          setMode('long', 15);
+        } else {
+          setMode('short', 5);
+        }
+      } else {
+        setMode('focus', 25);
+      }
+    }
+
+    function playBeep() {
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        // Play 3 beeps
+        for (let i = 0; i < 3; i++) {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(880, audioCtx.currentTime + i * 0.4);
+          gain.gain.setValueAtTime(0.3, audioCtx.currentTime + i * 0.4);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + i * 0.4 + 0.3);
+
+          osc.start(audioCtx.currentTime + i * 0.4);
+          osc.stop(audioCtx.currentTime + i * 0.4 + 0.35);
+        }
+
+        // Final longer beep
+        setTimeout(() => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(1100, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.8);
+        }, 1400);
+      } catch(e) {
+        console.log('Audio not supported');
+      }
+    }
+
+    // Event Listeners
+    startBtn.addEventListener('click', () => {
+      if (isRunning) {
+        pauseTimer();
+      } else {
+        startTimer();
+      }
+    });
+
+    resetBtn.addEventListener('click', stopTimer);
+
+    skipBtn.addEventListener('click', () => {
+      stopTimer();
+      if (currentMode === 'focus') {
+        setMode('short', 5);
+      } else {
+        setMode('focus', 25);
+      }
+    });
+
+    modeTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        setMode(tab.dataset.mode, parseInt(tab.dataset.time));
+      });
+    });
+
+    setCustomBtn.addEventListener('click', () => {
+      const mins = parseInt(customMinutesInput.value);
+      if (mins >= 1 && mins <= 120) {
+        totalSeconds = mins * 60;
+        remainingSeconds = totalSeconds;
+        timerLabel.textContent = `Custom (${mins}min)`;
+        stopTimer();
+        updateDisplay();
+      }
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (isRunning) pauseTimer(); else startTimer();
+      }
+      if (e.key === 'r' || e.key === 'R') {
+        stopTimer();
+      }
+      if (e.key === 's' || e.key === 'S') {
+        skipBtn.click();
+      }
+    });
+
+    // Initialize
+    updateDisplay();
+  </script>
+</body>
+</html>

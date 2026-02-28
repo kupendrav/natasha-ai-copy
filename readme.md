@@ -17,6 +17,7 @@ This project was born at our very first hackathon! Four passionate developers ca
 
 | Name | GitHub |
 |------|--------|
+| Kupendra | [@kupendrav](https://github.com/kupendrav) |
 | Mohammed Faizan | [@mohdfaizan5](https://github.com/mohdfaizan5) |
 | Likitha Nagaraj | [@likithanagaraj](https://github.com/likithanagaraj) |
 | Mohammed Tahir | [@muhammedtahir1](https://github.com/muhammedtahir1) |
