@@ -1,21 +1,38 @@
 function speak(text){
   
-  // Create a new speechSynthesisU
+  // Create a new speechSynthesisUtterance
   let utterance = new SpeechSynthesisUtterance();
 
-  // Changing voice to girl
-  utterance.voice = window.speechSynthesis.getVoices()[6]; //Eng Google UK Female.
+  // Wait for voices to load, prefer a natural female voice
+  const voices = window.speechSynthesis.getVoices();
+  // Try to find Google UK English Female, fall back to any female, then default
+  let selectedVoice = voices.find(v => v.name.includes('Google UK English Female'));
+  if (!selectedVoice) selectedVoice = voices.find(v => v.name.includes('Female'));
+  if (!selectedVoice) selectedVoice = voices[6] || voices[0];
+  utterance.voice = selectedVoice;
+
+  // Make it sound more human - natural pace, warm pitch
+  utterance.rate = 0.95;    // Slightly slower for natural feel
+  utterance.pitch = 1.15;   // Slightly higher for warmth
+  utterance.volume = 0.9;   // Comfortable volume
 
   // speak what arg is passed to it.
-  utterance.text = text
+  utterance.text = text;
 
   // Finally speaking
-  window.speechSynthesis.speak(utterance)
+  window.speechSynthesis.speak(utterance);
 
   utterance.onstart = (event)=> {
-    console.log('started speaking')
+    console.log('started speaking');
   }
 
+}
+
+// Load voices when they become available
+if (typeof speechSynthesis !== 'undefined') {
+  speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+  };
 }
 
   // listening 

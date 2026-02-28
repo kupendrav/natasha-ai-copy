@@ -13,6 +13,16 @@
   src: url(../assets/fonts/SegoeUI.ttf);
 }
 
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body{
   margin: 0;
   padding: 0;
@@ -22,12 +32,19 @@ body{
   padding: 0px 10px;
   margin: 0px 80px;
   font-size: 18px;
+  cursor: none;
+  overflow-x: hidden;
 }
 
 
 a{
   color: white;
   text-decoration: none;
+  cursor: none;
+}
+
+button, input, textarea, select {
+  cursor: none;
 }
 
 
@@ -39,4 +56,53 @@ h1{
 h2{
   font-family: segoe_ui-semibold;
   /* font-family: segoe_ui-black; */
+}
+
+/* Custom Animated Cursor */
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgb(168, 85, 247);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor-follower {
+  width: 40px;
+  height: 40px;
+  background: rgba(168, 85, 247, 0.15);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease, background-color 0.3s ease;
+}
+
+.custom-cursor.hover {
+  width: 50px;
+  height: 50px;
+  background: rgba(168, 85, 247, 0.25);
+  border-color: rgb(192, 132, 252);
+}
+
+.cursor-follower.hover {
+  width: 70px;
+  height: 70px;
+  background: rgba(168, 85, 247, 0.08);
+}
+
+/* Selection color */
+::selection {
+  background-color: rgba(147, 51, 234, 0.4);
+  color: white;
 }

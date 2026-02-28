@@ -19,6 +19,10 @@
     integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <!-- GSAP Animation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
     <!-- JS -->
     <script src="static/js/speechRecognition.js" defer></script>
     <script src="static/js/main.js" defer></script>
@@ -27,6 +31,9 @@
 </head>
 
 <body>
+  <!-- Custom Animated Cursor -->
+  <div class="custom-cursor"></div>
+  <div class="cursor-follower"></div>
 
   <main >
     <nav id="nav1">
@@ -43,11 +50,11 @@
       </a>
     </nav>
     <div class="home-front-container">
-      <div class="about">
-        AI-Driven solution that revolutionous <br> daily life management
+      <div class="about" id="hero-title">
+        AI-Driven solution that revolutionizes <br> daily life management
       </div>
-      <div class="description">
-        tracking activities, suggesting improvements, unique insights and <br> providing productivity tool aiming personal development <br> and career growth
+      <div class="description" id="hero-desc">
+        Tracking activities, suggesting improvements, unique insights and <br> providing productivity tools for personal development <br> and career growth
       </div>
 
 
@@ -194,19 +201,18 @@ Empowering Personal Development: Invent an emotionally connected AI that support
   <footer>
     <div class="custom-screen">
       <p>
-        &copy; 2023 Natasha. All rights reserved
+        &copy; 2023 Natasha.ai &mdash; Built with &hearts; at NHCE Bangalore
       </p>
-      <div>
-        twitter, facebook
+      <div class="footer-links">
+        <a href="https://github.com/mohdfaizan5" target="_blank"><i class="fa-brands fa-github"></i></a>
+        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
       </div>
-
     </div>
   </footer>
 
-  <!-- <script src="static/js/speechRecognition.js"></script>
-  <script src="static/js/main.js"></script>
-  <script src="static/js/script.js"></script> -->
   <script src="./static/js/openai.js"></script>
+  <script src="./static/js/gsap-animations.js"></script>
 </body>
 
 </html>

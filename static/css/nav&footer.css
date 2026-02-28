@@ -11,27 +11,60 @@ nav{
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding-bottom: 15px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .nav-company-name{
   font-size: 35px;
   display: inline-block;
+  background: linear-gradient(135deg, #a78bfa, #c084fc, #e9d5ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .nav-button{
-  border: 1px solid white;
+  border: 1px solid rgba(168, 85, 247, 0.6);
   color: white; 
-  background-color: rgb(17, 24, 39);
-  padding: 5px 10px;
-  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(168, 85, 247, 0.1));
+  padding: 8px 20px;
+  border-radius: 25px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  backdrop-filter: blur(5px);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.nav-button:hover::before {
+  left: 100%;
+}
+
+.nav-button:hover{
+  background: linear-gradient(135deg, rgba(147, 51, 234, 0.5), rgba(168, 85, 247, 0.3));
+  border-color: rgb(168, 85, 247);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(147, 51, 234, 0.3);
 }
 
 .nav-company-logo{
   width: 35px;
   margin-right: 10px;
-  /* display: inline-block; */
 }
 
 
@@ -47,20 +80,47 @@ footer{
 }
 
 .custom-screen{
-
-  padding: 0px 32px;
+  padding: 20px 32px;
   margin: 0px 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid rgb(31, 41, 55);
-
+  border-top: 1px solid rgba(168, 85, 247, 0.3);
+  background: linear-gradient(180deg, transparent, rgba(147, 51, 234, 0.05));
 }
 
 footer p{
   display: inline-block;
+  color: rgb(209, 213, 219);
+  font-size: 14px;
 }
 
 footer div{
   display: inline-block;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-links a {
+  color: rgb(168, 85, 247);
+  font-size: 22px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.footer-links a:hover {
+  color: #e9d5ff;
+  background: rgba(147, 51, 234, 0.2);
+  border-color: rgb(168, 85, 247);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(147, 51, 234, 0.3);
 }

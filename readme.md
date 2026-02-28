@@ -1,43 +1,136 @@
-# ai-personal-assistant
+# Natasha.ai — Your AI Personal Productivity Mentor
 
-#### A Personal AI Assistant that helps you in your daily work.
-> Voice and text activated superpower
+![Natasha.ai](static/assets/images/image.png)
 
+> **Voice and text activated AI assistant that revolutionizes daily life management**
 
-## Responsibilites
-|Status|Work|Assignees|
-|---|---|---|
-|✔|Homepage UI|Faizan|
-||NLP|Tahir|
-|✔|Dashboard|Akshay|
-||OpenAI|Likitha|
-|✔|Guidelines|Kupendra|
-||Meditation|Kupendra|
-|*Section* 2|||
-||Make sure everything is working together|Faizan|
-|-|Other Command|Kupendra|
-||TO-DO ++|Tahir|
-||Local storage|Faizan|
-||Forgetting curve UI|Likitha|
-||Pomodoro|Akshay|
-||Give details||
+---
 
-## Tips to consider:
-- Don't overspend time in making something unnecessary:(don't go behind perfections)
-- Use universal theame (color && fonts)
-- Section 1 should be ready in 3hrs.
-- 
+## 🏆 Our First Hackathon!
 
-## Colors🎨:
+**Built at New Horizon College of Engineering (NHCE), Bengaluru**  
+**Date:** 25 August 2023
 
-- Background color : rgb(17, 24, 39)
-    - gradiant bg: (rgb(92,74,150), rgb(162,134,213))
-- Buttons color: rgb(147, 51, 234)
+This project was born at our very first hackathon! Four passionate developers came together at NHCE Bangalore to build something meaningful — an AI-driven personal assistant that helps people boost their productivity and take control of their daily lives.
 
-- <u>Fonts</u>
+### 👥 Team Members
 
-    - Primary: white.
-    - Secondary: rgb(243, 244, 246)
-    - Tertiory: rgb(209, 213, 219)
+| Name | GitHub |
+|------|--------|
+| Mohammed Faizan | [@mohdfaizan5](https://github.com/mohdfaizan5) |
+| Likitha Nagaraj | [@likithanagaraj](https://github.com/likithanagaraj) |
+| Mohammed Tahir | [@muhammedtahir1](https://github.com/muhammedtahir1) |
+| Akshay Sekhar | [@akshsekhr2702](https://github.com/akshsekhr2702) |
 
-ref (https://eclipsefin.netlify.app/?ref=landingfolio)
+---
+
+## 💡 What is Natasha?
+
+Natasha is an **AI-integrated personal assistant** that serves as a supportive guide and mentor for self-development and productivity. It's designed for students and professionals who want to increase their productivity and manage their time efficiently.
+
+Rather than just being another chatbot, Natasha is an **emotionally connected AI mentor** that:
+- Tracks your activities and suggests improvements
+- Provides personalized productivity tools
+- Offers guidance for both personal development and career growth
+- Responds with warmth and emotional awareness
+- Supports voice and text-based interaction
+
+---
+
+## 🚀 Features
+
+### Core Capabilities
+- **Voice Activated** — Speak naturally and Natasha understands
+- **AI Chat Integration** — Powered by OpenAI for intelligent conversations
+- **Emotionally Aware** — Responds with empathy and encouragement
+- **Psychologically Appealing UI** — Calming purple theme with smooth GSAP animations
+
+### Productivity Tools
+- ⏱️ **Pomodoro Timer** — Focus sessions with break management
+- ✅ **Smart To-Do List** — Priority-based task management
+- 🧘 **Meditation App** — Guided relaxation and mindfulness
+- 📈 **Forgetting Curve** — Spaced repetition for better memory
+- 📊 **Dashboard** — Track and visualize your productivity data
+
+### Quick Commands
+- `"Open Pomodoro"` — Start a focus session
+- `"Open To-do"` — Manage your tasks
+- `"Open Dashboard"` — View your productivity stats
+- `"Play [song name]"` — Play music on Spotify/YouTube
+- `"Search for [topic]"` — Quick Google search
+- `"Open meditation app"` — Start a meditation session
+- `"Suggest me some meals"` — Get meal ideas
+- `"Today's weather report"` — Check the weather
+
+---
+
+## 🎨 Design
+
+- **Theme:** Dark background with light purple gradients
+- **Color Palette:**
+  - Background: `rgb(17, 24, 39)`
+  - Primary Purple: `rgb(147, 51, 234)`
+  - Gradient: `rgb(92,74,150)` → `rgb(162,134,213)`
+  - Text: White / `rgb(209, 213, 219)`
+- **Animations:** GSAP-powered smooth transitions and scroll-triggered effects
+- **Custom Cursor:** Animated purple cursor with hover effects
+
+---
+
+## 🛠️ Tech Stack
+
+- HTML5 / CSS3 / Vanilla JavaScript
+- [GSAP](https://greensock.com/gsap/) — Animation library
+- Web Speech API — Voice recognition & synthesis
+- OpenAI API — AI-powered responses
+- Font Awesome — Icons
+
+---
+
+## 📁 Project Structure
+
+```
+natasha-ai/
+├── index.html                  # Main landing page
+├── readme.md
+├── static/
+│   ├── about.html              # About page
+│   ├── assets/
+│   │   ├── fonts/
+│   │   └── images/
+│   │       └── image.png       # Hackathon team photo
+│   ├── css/
+│   │   ├── general.css
+│   │   ├── style.css
+│   │   ├── nav&footer.css
+│   │   ├── about.css
+│   │   └── index.css
+│   └── js/
+│       ├── main.js
+│       ├── commands.js
+│       ├── speechRecognition.js
+│       ├── openai.js
+│       ├── gsap-animations.js
+│       └── about-animations.js
+└── other-applications/
+    ├── dashboard/
+    ├── forgetting-curve/
+    ├── meditation/
+    ├── pomodoro/
+    └── todo/
+```
+
+---
+
+## 🚀 Getting Started
+
+1. Clone the repository
+2. Open `index.html` in your browser
+3. Click the mic button or press `Space` to start talking to Natasha
+4. Type commands in the search bar and click "Go"
+
+---
+
+> *"Natasha — Because everyone deserves a mentor who never sleeps."*
+
+Made with ❤️ at NHCE Bengaluru Hackathon 2023
